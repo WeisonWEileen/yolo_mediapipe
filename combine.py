@@ -3,9 +3,15 @@ import mediapipe as mp
 import numpy as np
 from ultralytics import YOLO
 import math
+import threading
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+import matplotlib.lines as line
+import random
 
 # Load YOLO model
 yolo_model = YOLO('hand_detection/yolov8x.pt')
+
 
 
 
@@ -24,11 +30,14 @@ hands_model = mp_hands.Hands(
     min_detection_confidence=0.75,
     min_tracking_confidence=0.75)
 
+
+
 cap = cv2.VideoCapture(0)
 
 
 
 distance = 0
+
 
 # hand_position = np.array([0,0])
 # cup_position = np.array([0,0])
@@ -38,6 +47,7 @@ box_flag = False
 hand_flag = False
 
 while True:
+
 
     hand_position = np.array([0,0])
     cup_position = np.array([0,0])
@@ -84,7 +94,7 @@ while True:
                     #识别到了，调整flag
                     hand_flag = True
     # cv2.imshow('MediaPipe Hands', frame)
-    yolo_results = yolo_model.predict(frame, show=True,)
+    yolo_results = yolo_model.predict(frame)
     for r in yolo_results:
         for box in r.boxes:
             if box.cls.cpu().numpy().astype(int) == 39 and hand_flag == True:  #bottle的id是39
@@ -94,58 +104,20 @@ while True:
                     (int(four_points[3]) - int(four_points[1])) / 2 + int(four_points[1])
                     ])
                 
+                pixel01, pixel02 = (int(four_points[0]), int(four_points[1])), (int(four_points[2]), int(four_points[3]));
+                cv2.putText(frame, "bottle", ((pixel01[0] + pixel02[0]) // 2, (pixel01[1] + pixel02[1]) // 2), 0, 2, (0,255,0),
+                            thickness=4, lineType=cv2.LINE_AA)
+                cv2.rectangle(frame, pixel01,pixel02, (18, 128, 128), thickness=4, lineType=cv2.LINE_AA)
+                # cv2.rectangle(frame,(four_points[0],four_points[1]),(four_points[2],four_points[3]),(0, 0, 255),thickness = 8,lineType=cv2.LINE_AA)
+                
+                # cv2.rectangle(self.im, p1, p2, color, thickness=self.lw, lineType=cv2.LINE_AA)
                 distance = np.linalg.norm(hand_position - cup_position)
                 print("两点之间的距离:", distance)
+
                 # cv2.line(frame, cup_position, hand_position, (0,0,255), font_thickness)
                 # cv2.line(frame, (hand_position[0], hand_position[1]), (cup_position[0], cup_position[1]), (0, 0, 255), 2)
-                cv2.line(frame, (int(hand_position[0]), int(hand_position[1])), (int(cup_position[0]), int(cup_position[1])), (0, 0, 255), 5)
-                
-                
-
-
-    # for r in yolo_results:
-    #     i = 0
-
-
-
-    # print("----------------begin----------------------\n")
-    # if yolo_results:
-    #     print(yolo_results[0])
-    # print("-----------------end---------------------\n")
-
-
-    # exit_flag = False
-    # #计算模块，我好像懂了，是不是两个results是类，boxes是个数
-    # if yolo_results:
-    #     # for box in yolo_results.pred_boxes:
-    #     for r1 in yolo_results:
-    #         for box in r1.boxes:
-    #             if 'bottle' in box.name_handler:
-    #                 box_flag = True
-    #                 if box_flag and hand_flag:
-    #                     distance = math.sqrt((box.center_handler[0]- hand_position[0])^2
-    #                                         +(box.center_handler[1]- hand_position[1])^2)
-    #                     text = f'the distance is {distance}'
-    #                     print(text)
-    #                     # cv2.putText(frame, text, (cx+20, cy+20), font, font_scale, font_color, font_thickness)
-    #                     cv2.line(frame, box.center_handler, hand_position, (0,0,255), font_thickness)
-                        
-
-    #                     exit_flag = True  # 外面的for循环的设置退出标志，避免多个检测结果
-    #                     break
-    #             if exit_flag:
-                    # break
-    
-
-    #文件之间的通信，失败
-    # if current_cup_detect_flag and hand_flag:
-    #     distance = math.sqrt((current_cup_position[0]- hand_position[0])^2
-    #                 +(current_cup_position[1]- hand_position[1])^2)
-    #     cv2.line(frame, current_cup_position, hand_position, (0,0,255), font_thickness)
-    #     current_cup_detect_flag = False
-    #     hand_flag = False
-    #     #next frame
-        
+                cv2.line(frame, (int(hand_position[0]), int(hand_position[1])), (int(cup_position[0]), int(cup_position[1])), (0, 0, 255), 9)
+    cv2.imshow('MediaPipe Hands', frame) 
 
 
     box_flag = False

@@ -53,5 +53,6 @@ and then the numpy `squeeze()` function transfer the four detect point into
 annotator.box_label(d.xyxy.squeeze(), label, color=colors(c, True))
 ```
 
+### ```combine.py``` 是最终的运行文件
 @ TODO
 - 读对面的，记录电刺激参数的帧末尾处理，记录，下次读进来作为，读杯子的宽度
