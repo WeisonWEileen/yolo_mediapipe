@@ -2,6 +2,11 @@
 
 >Tips: Here I may change the source code of     ultralytics to improve the performance of this project.
 ## how to run the container
+Firstly, we need to  build the image using the Dockerfile(you should run the following command in the parent folder of Dockerfile )
+```
+docker build -t yolo-medpip-eletron
+```
+Then run the container 
 ```
 sudo docker run -dit \
 --name=yolo_mediapip_eletronic \
@@ -13,7 +18,7 @@ sudo docker run -dit \
 --net=host \
 --ipc=host \
 --gpus all \
-ultralytics/ultralytics@sha256:1680334f0dc9e779fcd193782a1fa6e41accfc1cc555e65ac168c7f0cbb9d016
+yolo-medpip-eletron
 ```
 ## This is the plotting call stack
 ```mermaid
