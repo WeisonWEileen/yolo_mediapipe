@@ -1,6 +1,20 @@
 # YOLO-v8 + Mediapipe to assist the daily life of patients with hemiplegia grasping
 
 >Tips: Here I may change the source code of     ultralytics to improve the performance of this project.
+## how to run the container
+```
+sudo docker run -dit \
+--name=yolo_mediapip_eletronic \
+--privileged  \
+-v /dev:/dev \
+-v /tmp/.X11-unix:/tmp/.X11-unix  \
+-e DISPLAY=unix$DISPLAY \
+-w /usr/src \
+--net=host \
+--ipc=host \
+--gpus all \
+ultralytics/ultralytics@sha256:1680334f0dc9e779fcd193782a1fa6e41accfc1cc555e65ac168c7f0cbb9d016
+```
 ## This is the plotting call stack
 ```mermaid
 flowchart TB;
