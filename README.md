@@ -1,4 +1,4 @@
-# YOLO-v8 + Mediapipe to assist the daily life of patients with hemiplegia grasping
+# YOLOv8 + Mediapipe to assist the daily life of patients with hemiplegia grasping
 
 >Tips: Here I may change the source code of     ultralytics to improve the performance of this project.
 ## how to run the container
@@ -20,6 +20,8 @@ sudo docker run -dit \
 --gpus all \
 yolo-medpip-eletron
 ```
+
+
 ## This is the plotting call stack
 ```mermaid
 flowchart TB;
@@ -51,27 +53,24 @@ Tips:
     ```
     self.center_handler = 0
     ```
-# The key data format transform about plotting the result: from tensor to array
-from the given markdown description, we can see the `xyxy` is in Tensor format
-| Name      | Type                      | Description                                                        |
-|-----------|---------------------------|--------------------------------------------------------------------|
-| `cpu()`   | Method                    | Move the object to CPU memory.                                     |
-| `numpy()` | Method                    | Convert the object to a numpy array.                               |
-| `cuda()`  | Method                    | Move the object to CUDA memory.                                    |
-| `to()`    | Method                    | Move the object to the specified device.                           |
-| `xyxy`    | Property (`torch.Tensor`) | Return the boxes in xyxy format.                                   |
-| `conf`    | Property (`torch.Tensor`) | Return the confidence values of the boxes.                         |
-| `cls`     | Property (`torch.Tensor`) | Return the class values of the boxes.                              |
-| `id`      | Property (`torch.Tensor`) | Return the track IDs of the boxes (if available).                  |
-| `xywh`    | Property (`torch.Tensor`) | Return the boxes in xywh format.                                   |
-| `xyxyn`   | Property (`torch.Tensor`) | Return the boxes in xyxy format normalized by original image size. |
-| `xywhn`   | Property (`torch.Tensor`) | Return the boxes in xywh format normalized by original image size. |
 
-and then the numpy `squeeze()` function transfer the four detect point into 
+## hand online 3D visualization
+open a terminal
 ```
-annotator.box_label(d.xyxy.squeeze(), label, color=colors(c, True))
+python3 mediapipe_3d.py
 ```
+open another terminal
+```
+python3 extract_mediapipe_hand.py
+```
+
+
+## @ TODO
+- 读对面的，记录电刺激参数的帧末尾处理，记录，下次读进来作为，读杯子的宽度
+
+
+# Appendix
+here is the official hand detection output 
+![alt text](docs\image.png)
 
 ### ```combine.py``` 是最终的运行文件
-@ TODO
-- 读对面的，记录电刺激参数的帧末尾处理，记录，下次读进来作为，读杯子的宽度
