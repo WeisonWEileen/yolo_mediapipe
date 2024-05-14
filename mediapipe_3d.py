@@ -5,6 +5,8 @@ import numpy as np
 
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
+triangles = [[0, 1, 2]]
+
 
 # ax.set_xlim(0.2,0.55)
 # ax.set_ylim(0.6,0.9)
@@ -54,6 +56,13 @@ while True:
     fingers = [pinkie_f, ring_f, middle_f, index_f, thumb_f]
     fingers_colors = ['red', 'blue', 'green', 'black', 'orange']
 
+    for frame in frame_keypoints:
+        xs = frame[0]
+        ys = frame[1]
+        zs = frame[2]
+        ax.scatter(xs, ys, zs,c='red', s=100)
+
+    # ax.plot_trisurf(frame_keypoints[0], frame_keypoints[5], frame_keypoints[17], triangles=triangles)
 
     for finger, finger_color in zip(fingers, fingers_colors):
         for point_pair_index in finger:
@@ -63,8 +72,6 @@ while True:
                     linewidth = 4,
                     c = finger_color
                     )
-
-
 
     plt.draw()
     plt.pause(0.01)

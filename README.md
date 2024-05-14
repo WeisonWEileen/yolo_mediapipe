@@ -1,6 +1,30 @@
 # YOLOv8 + Mediapipe to assist the daily life of patients with hemiplegia grasping
+### work flow chart
+![flow](./docs/image2.png)
 
->Tips: Here I may change the source code of     ultralytics to improve the performance of this project.
+### test on patient
+![patient](./docs/patient_test.jpeg)
+> test demo
+
+![dd](./docs/demo.gif)
+# 3D online hand pose visulization 
+
+
+![drawing](./docs/visualize.gif)
+
+how to run: open a terminal window
+```
+python3 mediapipe_3d.py
+```
+open another terminal
+```
+python3 extract_mediapipe_hand.py
+```
+
+### FSM control algorithm
+![fsm](./docs/image3.png)
+
+
 ## how to run the container
 Firstly, we need to  build the image using the Dockerfile(you should run the following command in the parent folder of Dockerfile )
 ```
@@ -54,15 +78,7 @@ Tips:
     self.center_handler = 0
     ```
 
-## hand online 3D visualization
-open a terminal
-```
-python3 mediapipe_3d.py
-```
-open another terminal
-```
-python3 extract_mediapipe_hand.py
-```
+
 
 
 ## @ TODO
